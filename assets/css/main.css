@@ -2678,7 +2678,7 @@ input, select, textarea {
 				font-weight: 400;
 				letter-spacing: 0.25em;
 				margin: -0.625em 0 1.7em 0;
-				text-transform: uppercase;
+				text-transform: none;
 			}
 
 			.mini-post header .author {
@@ -3035,7 +3035,7 @@ input, select, textarea {
 		letter-spacing: 0.25em;
 		line-height: 2.5;
 		margin-top: -1em;
-		text-transform: uppercase;
+		text-transform: none;
 	}
 
 /* Table */
