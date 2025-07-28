@@ -3510,4 +3510,54 @@ input, select, textarea {
 			}
 
 	}
-	
+/* Projects Grid Container */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 60px; /* Added extra padding at the bottom */
+}
+
+/* Projects Grid Buttons */
+.projects-grid a.button {
+    display: flex;
+    align-items: center;       /* Vertically center text */
+    justify-content: center;   /* Horizontally center text */
+    height: 60px;
+    padding: 0 20px;
+    text-align: center;
+    background-color: #3b3b3b;
+    color: #f0f0f0;            /* Light text color */
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+.projects-grid a.button:hover {
+    background-color: #666;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.projects-grid a.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    padding: 0 20px;
+    text-align: center;
+    background-color: #3b3b3b;
+    color: #ffffff; /* Changed to pure white */
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
