@@ -3561,3 +3561,41 @@ input, select, textarea {
     transition: background-color 0.3s ease;
 }
 
+/* Custom styles for the anchor links grid */
+#categories {
+    padding-top: 4em; /* Adds space above 'Explore My Projects' */
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+    padding-bottom: 40px; /* Adds space below buttons */
+}
+
+.projects-grid a.button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center;
+    padding: 20px;
+    background-color: #3b3b3b !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.projects-grid a:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
