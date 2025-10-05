@@ -11,10 +11,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false  # important for pushing back
-      
-      - name: Setup Node.js
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -29,16 +27,17 @@ jobs:
         run: |
           rm -rf old_dist || true
           mkdir old_dist
-          # Backup current files except .git and .github
-          shopt -s extglob
-          mv !(dist|.git|.github|old_dist) old_dist/ || true
-          mv dist/* .
-          rm -rf dist
+          cp -r ./* old_dist/
+          rm -rf ./*
+          cp -r old_dist/dist/* ./
+          rm -rf old_dist
 
-      - name: Commit and push changes
+      - name: Commit & Push to master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
           git add .
-          git commit -m "Deploy built site to root [skip ci]" || echo "No changes to commit"
-          git push origin master
+          git diff --cached --quiet || git commit -m "Build and deploy to master"
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:master
