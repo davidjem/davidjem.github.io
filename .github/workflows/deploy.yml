@@ -1,32 +1,44 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (from master)
 
 on:
   push:
-    branches: [ master ]  # ✅ Change from 'main' to 'master'
+    branches: [ master ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
-
+        with:
+          persist-credentials: false  # important for pushing back
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: 18
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build  # ✅ Use your regular build script
+      - name: Build site
+        run: npm run build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # Folder created by `vite build`
-          publish_branch: gh-pages  # ✅ Push to `gh-pages` branch
+      - name: Move build output to root
+        run: |
+          rm -rf old_dist || true
+          mkdir old_dist
+          # Backup current files except .git and .github
+          shopt -s extglob
+          mv !(dist|.git|.github|old_dist) old_dist/ || true
+          mv dist/* .
+          rm -rf dist
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Deploy built site to root [skip ci]" || echo "No changes to commit"
+          git push origin master
