@@ -26,10 +26,9 @@ jobs:
       - name: Move build output to root
         run: |
           rm -rf old_dist || true
-          mkdir old_dist
-          cp -r ./* old_dist/
+          mv dist old_dist
           rm -rf ./*
-          cp -r old_dist/dist/* ./
+          cp -r old_dist/* ./
           rm -rf old_dist
 
       - name: Commit & Push to master
