@@ -23,13 +23,14 @@ jobs:
       - name: Build site
         run: npm run build
 
-      - name: Move build output to root
+      - name: Clean workspace except dist
         run: |
-          rm -rf old_dist || true
-          mv dist old_dist
-          find . -mindepth 1 ! -name 'old_dist' -exec rm -rf {} +
-          cp -r old_dist/* ./
-          rm -rf old_dist
+          find . -mindepth 1 -maxdepth 1 ! -name 'dist' ! -name '.git' -exec rm -rf {} +
+
+      - name: Move dist contents to root
+        run: |
+          cp -r dist/* ./
+          rm -rf dist
 
       - name: Commit & Push to master
         env:
